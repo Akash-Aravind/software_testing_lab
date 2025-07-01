@@ -1,0 +1,43 @@
+{%load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Akash Ecommerce - Cart</title>
+    <link rel="stylesheet" href="{%static 'styles.css'%}">
+</head>
+<body>
+    <header>
+        <h1>Akash Ecommerce</h1>
+        <nav>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'products' %}">Shop</a>
+            <a href="{% url 'cart' %}">Cart</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Your Cart</h2>
+        <div class="cart-item">
+            <h3>Product 1</h3>
+            <p>Price: $19.99</p>
+            <p>Quantity: 1</p>
+            <button class="button">Remove</button>
+        </div>
+
+        <div class="cart-item">
+            <h3>Product 2</h3>
+            <p>Price: $29.99</p>
+            <p>Quantity: 1</p>
+            <button class="button">Remove</button>
+        </div>
+
+        <h3>Total: $49.98</h3>
+        <button class="button">Proceed to Checkout</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Akash Ecommerce</p>
+    </footer>
+</body>
+</html>
