@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>{{ wishlist.user.username }}'s Wishlist</title>
+    <link rel="stylesheet" href="{% static 'wishlist.css' %}" />
+</head>
+<body>
+    <div class="container">
+        <h2>{{ wishlist.user.username }}'s Wishlist</h2>
+        <ul class="wishlist-list">
+            {% for product in wishlist.products.all %}
+                <li class="wishlist-item">
+                    {{ product.name }} - ${{ product.price }}
+                    <a href="{% url 'remove_from_wishlist' product.id %}" class="remove-link">Remove</a>
+                </li>
+            {% empty %}
+                <li>Your wishlist is empty.</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'products' %}" class="back-link">Back to Products</a>
+    </div>
+</body>
+</html>

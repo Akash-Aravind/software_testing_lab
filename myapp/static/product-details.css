@@ -1,0 +1,79 @@
+/* product-details.css */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 40px 0;
+    color: #333;
+}
+
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 25px 30px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+h2 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #27ae60;
+    margin-bottom: 20px;
+}
+
+.description {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.actions {
+    margin-bottom: 20px;
+}
+
+.btn {
+    font-weight: 600;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.wishlist-btn {
+    background-color: #f39c12;
+    color: white;
+    margin-right: 10px;
+}
+
+.wishlist-btn:hover {
+    background-color: #d68910;
+}
+
+.cart-btn {
+    background-color: #3498db;
+    color: white;
+}
+
+.cart-btn:hover {
+    background-color: #1d6fa5;
+}
+
+.back-link {
+    text-decoration: none;
+    font-weight: 600;
+    color: #3498db;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: #1d6fa5;
+}

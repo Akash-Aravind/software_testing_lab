@@ -1,35 +1,24 @@
-{%load static %}
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Akash Ecommerce - Product Details</title>
-    <link rel="stylesheet" href="{%static 'styles.css'%}">
+    <meta charset="UTF-8" />
+    <title>{{ product.name }}</title>
+    <link rel="stylesheet" href="{% static 'product-details.css' %}" />
 </head>
 <body>
-    <header>
-        <h1>Akash Ecommerce</h1>
-        <nav>
-            <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'products' %}">Shop</a>
-            <a href="{% url 'cart' %}">Cart</a>
-        </nav>
-    </header>
-
     <div class="container">
-        <div class="product-card">
-            <img src="https://via.placeholder.com/300" alt="Product">
-            <h2>Product 1</h2>
-            <p><strong>Price:</strong> $19.99</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel purus at erat cursus ultrices.</p>
-            <button class="button">Add to Cart</button>
-        </div>
-    </div>
+        <h2>{{ product.name }}</h2>
+        <p class="price">${{ product.price }}</p>
+        <p class="description">{{ product.description }}</p>
 
-    <footer>
-        <p>&copy; 2025 Akash Ecommerce</p>
-    </footer>
+        {% if user.is_authenticated %}
+            <div class="actions">
+                <a href="{% url 'add_to_wishlist' product.id %}" class="btn wishlist-btn">Add to Wishlist</a> |
+                <a href="{% url 'add_to_cart' product.id %}" class="btn cart-btn">Add to Cart</a>
+            </div>
+        {% endif %}
+        <a href="{% url 'products' %}" class="back-link">Back to Products</a>
+    </div>
 </body>
 </html>
- 
