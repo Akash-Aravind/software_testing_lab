@@ -12,6 +12,7 @@
         <ul class="products-list">
             {% for product in products %}
                 <li class="product-item">
+                    <img src="{% static 'images/default.png' %}" alt="Product image" class="product-image" />
                     <strong>{{ product.name }}</strong> – ${{ product.price }}<br>
                     <a href="{% url 'product-details' product.pk %}" class="details-link">Details</a>
                     {% if user.is_authenticated %}
@@ -23,6 +24,7 @@
                 <li>No products available.</li>
             {% endfor %}
         </ul>
+        
     </div>
 </body>
 </html>

@@ -115,11 +115,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
-# Optional but recommended for development
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # if you have project-level static files folder
-]
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
 
 # This is where static files will be collected with `collectstatic` in production
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -127,3 +125,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Use the test database
+TESTING = True
+
+# Allow running tests without needing a real browser (headless mode)
+SELENIUM_HEADLESS = True

@@ -46,3 +46,13 @@ h2 {
 .cart-link:hover {
     color: #1d6fa5;
 }
+
+
+.product-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    display: block;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}

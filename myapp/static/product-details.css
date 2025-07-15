@@ -77,3 +77,15 @@ h2 {
 .back-link:hover {
     color: #1d6fa5;
 }
+
+
+
+.product-image {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    display: block;
+    margin: 0 auto 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
