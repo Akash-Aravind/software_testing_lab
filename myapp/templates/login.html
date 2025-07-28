@@ -12,6 +12,24 @@
         <h2>Login</h2>
         <form method="POST" class="form-box">
             {% csrf_token %}
+
+            {% if form.errors %}
+                <ul class="errorlist">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <!-- Keep .errorlist in DOM so Selenium can always locate it -->
+                <ul class="errorlist" style="display:none;"></ul>
+            {% endif %}
+
+
             {{ form.as_p }}
             <button type="submit" class="btn submit-btn">Log In</button>
         </form>
