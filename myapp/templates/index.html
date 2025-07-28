@@ -1,35 +1,197 @@
-{%load static%}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Home Page</title>
-    <link rel="stylesheet" href="{% static 'index.css' %}" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background: #222;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+        }
+
+        header h1 {
+            font-size: 24px;
+        }
+
+        header nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 12px;
+            font-size: 14px;
+        }
+
+        header nav a:hover {
+            color: #ff9800;
+        }
+
+        .hero {
+            background: url("{% static 'images/banner.jpg' %}") center/cover no-repeat;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h2 {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .hero-content a {
+            background: #ff9800;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .hero-content a:hover {
+            background: #e68900;
+        }
+
+        .main-content {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .card a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 14px;
+            background: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .card a:hover {
+            background: #0056b3;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #222;
+            color: #fff;
+            margin-top: 40px;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Welcome to the Home Page</h2>
-
-        {% if user.is_authenticated %}
-            <p>
-                Hello, <strong>{{ user.username }}</strong> |
-                <form method="POST" action="{% url 'logout' %}" class="inline-form">
-                    {% csrf_token %}
-                    <button type="submit" class="btn logout-btn">Logout</button>
-                </form>
-            </p>
-            <nav>
-                <a href="{% url 'products' %}">View Products</a> |
-                <a href="{% url 'wishlist' %}">Wishlist</a> |
+    <header>
+        <h1>SW TESTING LAB</h1>
+        <nav>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'products' %}">Products</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'wishlist' %}">Wishlist</a>
                 <a href="{% url 'cart' %}">Cart</a>
-            </nav>
-        {% else %}
-            <p>
-                <a href="{% url 'signup' %}">Sign Up</a> |
+                <form method="POST" action="{% url 'logout' %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background:none;border:none;color:white;cursor:pointer;">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'signup' %}">Sign Up</a>
                 <a href="{% url 'login' %}">Login</a>
-            </p>
-        {% endif %}
+            {% endif %}
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Welcome to Our Store</h2>
+            <p>Explore the latest products and exclusive deals.</p>
+            <a href="{% url 'products' %}">Shop Now</a>
+        </div>
+    </section>
+
+    <div class="main-content">
+        <h2 style="text-align:center;margin-bottom:30px;">Quick Access</h2>
+        <div class="card-grid">
+            <div class="card">
+                <h3>View Products</h3>
+                <p>Browse our catalog of amazing items.</p>
+                <a href="{% url 'products' %}">Browse</a>
+            </div>
+            <div class="card">
+                <h3>Your Wishlist</h3>
+                <p>Keep track of products you like.</p>
+                <a href="{% url 'wishlist' %}">Go</a>
+            </div>
+            <div class="card">
+                <h3>Your Cart</h3>
+                <p>See items ready for checkout.</p>
+                <a href="{% url 'cart' %}">View</a>
+            </div>
+        </div>
     </div>
+
+
 </body>
 </html>

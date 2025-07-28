@@ -3,23 +3,165 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ wishlist.user.username }}'s Wishlist</title>
-    <link rel="stylesheet" href="{% static 'wishlist.css' %}" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background: #222;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+        }
+
+        header h1 {
+            font-size: 22px;
+        }
+
+        header nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 12px;
+            font-size: 14px;
+        }
+
+        header nav a:hover {
+            color: #ff9800;
+        }
+
+        .hero {
+            background: #555; /* no banner image */
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 28px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .wishlist-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .wishlist-item {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .wishlist-item span {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .wishlist-item .price {
+            font-size: 14px;
+            color: #666;
+            margin-left: 10px;
+        }
+
+        .remove-link {
+            background: #dc3545;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 13px;
+            transition: background 0.3s ease;
+        }
+
+        .remove-link:hover {
+            background: #c82333;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            background: #007bff;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            background: #0056b3;
+        }
+
+    </style>
 </head>
 <body>
-    <div class="container">
+    <header>
+        <h1>SW TESTING LAB</h1>
+        <nav>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'products' %}">Products</a>
+            <a href="{% url 'cart' %}">Cart</a>
+            {% if user.is_authenticated %}
+                <form method="POST" action="{% url 'logout' %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background:none;border:none;color:white;cursor:pointer;">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'signup' %}">Sign Up</a>
+                <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <section class="hero">
         <h2>{{ wishlist.user.username }}'s Wishlist</h2>
+    </section>
+
+    <div class="container">
         <ul class="wishlist-list">
             {% for product in wishlist.products.all %}
                 <li class="wishlist-item">
-                    {{ product.name }} - ${{ product.price }}
+                    <div>
+                        <span>{{ product.name }}</span>
+                        <span class="price">Rs.{{ product.price }}</span>
+                    </div>
                     <a href="{% url 'remove_from_wishlist' product.id %}" class="remove-link">Remove</a>
                 </li>
             {% empty %}
-                <li>Your wishlist is empty.</li>
+                <li class="wishlist-item">Your wishlist is empty.</li>
             {% endfor %}
         </ul>
-        <a href="{% url 'products' %}" class="back-link">Back to Products</a>
+        <a href="{% url 'products' %}" class="back-link">← Back to Products</a>
     </div>
 </body>
 </html>

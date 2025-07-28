@@ -11,10 +11,23 @@
         <h2>Sign Up</h2>
         <form method="POST" class="form-box">
             {% csrf_token %}
-            
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password1" placeholder="Password" required>
-            <input type="password" name="password2" placeholder="Confirm Password" required>
+
+            {% if form.errors %}
+                <ul class="errorlist">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>   <!-- Keep only the error text -->
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <input type="text" name="username" id="id_username" placeholder="Username">
+            <input type="password" name="password1" id="id_password1" placeholder="Password">
+            <input type="password" name="password2" id="id_password2" placeholder="Confirm Password">
 
             <button type="submit" class="btn submit-btn">Register</button>
         </form>

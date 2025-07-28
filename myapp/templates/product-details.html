@@ -3,25 +3,223 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ product.name }}</title>
-    <link rel="stylesheet" href="{% static 'product-details.css' %}" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background: #222;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+        }
+
+        header h1 {
+            font-size: 22px;
+        }
+
+        header nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 12px;
+            font-size: 14px;
+        }
+
+        header nav a:hover {
+            color: #ff9800;
+        }
+
+        .hero {
+            background: url("{% static 'images/banner.jpg' %}") center/cover no-repeat;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h2 {
+            font-size: 36px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .product-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .image-gallery {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .image-gallery img {
+            width: 100%;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .thumbnail-list {
+            display: flex;
+            gap: 10px;
+        }
+
+        .thumbnail-list img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border 0.3s ease;
+        }
+
+        .thumbnail-list img:hover {
+            border: 2px solid #28a745;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-info h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .product-info p {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e63946;
+            margin-bottom: 10px;
+        }
+
+        .stock {
+            font-size: 14px;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 18px;
+            margin-right: 10px;
+            background: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .wishlist-btn {
+            background: #28a745;
+        }
+
+        .wishlist-btn:hover {
+            background: #1e7e34;
+        }
+
+    </style>
 </head>
 <body>
+    <header>
+        <h1>My Shop</h1>
+        <nav>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'products' %}">Products</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'wishlist' %}">Wishlist</a>
+                <a href="{% url 'cart' %}">Cart</a>
+                <form method="POST" action="{% url 'logout' %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background:none;border:none;color:white;cursor:pointer;">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'signup' %}">Sign Up</a>
+                <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h2>{{ product.name }}</h2>
+        </div>
+    </section>
+
     <div class="container">
-        <img src="{% static 'images/default.png' %}" alt="Product image" class="product-image" />
-    
-        <h2>{{ product.name }}</h2>
-        <p class="price">${{ product.price }}</p>
-        <p class="description">{{ product.description }}</p>
-    
-        {% if user.is_authenticated %}
-            <div class="actions">
-                <a href="{% url 'add_to_wishlist' product.id %}" class="btn wishlist-btn">Add to Wishlist</a> |
-                <a href="{% url 'add_to_cart' product.id %}" class="btn cart-btn">Add to Cart</a>
+        <div class="product-header">
+            <div class="image-gallery">
+                {% if images %}
+                    <img src="{{ images.0.image.url }}" id="main-image">
+                    <div class="thumbnail-list">
+                        {% for img in images %}
+                            <img src="{{ img.image.url }}" alt="Sorry not available" onclick="document.getElementById('main-image').src=this.src;">
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
-        {% endif %}
-        <a href="{% url 'products' %}" class="back-link">Back to Products</a>
+
+            <div class="product-info">
+                <h3>{{ product.name }}</h3>
+                <p class="price">Price: Rs.{{ product.final_price }}</p>
+                <p class="stock">Stock: {{ product.stock }}</p>
+                <p>{{ product.description }}</p>
+                <a href="{% url 'add_to_cart' product.id %}" class="btn">Add to Cart</a>
+                <a href="{% url 'add_to_wishlist' product.id %}" class="btn wishlist-btn">Add to Wishlist</a>
+            </div>
+        </div>
     </div>
-    
 </body>
 </html>
